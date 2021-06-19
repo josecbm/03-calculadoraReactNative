@@ -48,7 +48,29 @@ export const CalcuScreen = () => {
         }else{
             setNumero(numero.substr(0,numero.length-1))
         }
+
+        // let negativo = '';
+        // let numeroTemp = numero;
+        // if(numero.includes('-')){
+        //     negativo = '-';
+        //     numeroTemp = numero.substr(1);
+        // }
+        // if (numeroTemp.length > 1){
+        //     setNumero(negativo + numeroTemp.slice(0,-1));
+        // }else {
+        //     setNumero('0')
+        // }
         
+    }
+
+    const cambiarNumPorAnterior = () =>{
+        if(numero.endsWith('.')){
+            setnumeroAnterior(numero.slice(0,-1));
+        }else{
+            setnumeroAnterior(numero);
+        }
+        
+        setNumero('0')
     }
     return (
         <View style={styles.calculadoraContainer}>
@@ -65,7 +87,7 @@ export const CalcuScreen = () => {
                 <BotonCalc texto = "C" color="#9B9B9B" accion={ limpiar }/>
                 <BotonCalc texto = "+/-" color="#9B9B9B" accion={ positivoNegativo }/>
                 <BotonCalc texto = "del" color="#9B9B9B" accion={ deleteData }/>
-                <BotonCalc texto = "/" color="#FF9427" accion={ limpiar }/>
+                <BotonCalc texto = "/" color="#FF9427" accion={ cambiarNumPorAnterior }/>
             </View>
             {/* Fila de botones  */}
             <View style={styles.fila}>

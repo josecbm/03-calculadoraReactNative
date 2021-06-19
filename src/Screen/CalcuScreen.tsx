@@ -7,14 +7,48 @@ export const CalcuScreen = () => {
 
     const [numeroAnterior, setnumeroAnterior] = useState('0')
     const [numero, setNumero] = useState('0');
-
-
     const limpiar = () =>{
         setNumero('0');
     }
-
     const armarNumero =(numeroTexto: string)=>{
-        setNumero(numero + numeroTexto )
+        // no aceptar doble punto 
+        if(numero.includes('.') && numeroTexto === '.') return;
+        
+        if( numero.startsWith('0') || numero.startsWith('-0')){
+            // punto decimal 
+            if(numeroTexto === '.'){
+                setNumero(numero+numeroTexto);
+                // evaluar si es otro 0 y hay un punto 
+            } else if( numeroTexto === '0' && numero.includes('.')){
+                setNumero(numero + numeroTexto);
+                //evaluar si es diferente de cero y no tiene un punto
+            }else if(numeroTexto !== '0' && !numero.includes('.')){
+                setNumero(numeroTexto)
+                // evitar el 0000.0
+            }else if(numeroTexto === '0' && !numero.includes('.')) {
+                setNumero(numero );
+            }
+        }else{
+            setNumero(numero + numeroTexto )
+        }
+    }
+    const positivoNegativo =() =>{
+        if(numero.includes('-') ){
+            setNumero(numero.replace('-','') ); 
+        }else{
+            setNumero('-' + numero);
+        }
+    }
+
+    const deleteData =() =>{
+        if(numero.length===1){
+            setNumero('0');
+        }else if(numero.length ===2 && numero.charAt(0) === '-'){
+            setNumero('0');
+        }else{
+            setNumero(numero.substr(0,numero.length-1))
+        }
+        
     }
     return (
         <View style={styles.calculadoraContainer}>
@@ -29,8 +63,8 @@ export const CalcuScreen = () => {
             {/* Fila de botones  */}
             <View style={styles.fila}>
                 <BotonCalc texto = "C" color="#9B9B9B" accion={ limpiar }/>
-                <BotonCalc texto = "+/-" color="#9B9B9B" accion={ limpiar }/>
-                <BotonCalc texto = "del" color="#9B9B9B" accion={ limpiar }/>
+                <BotonCalc texto = "+/-" color="#9B9B9B" accion={ positivoNegativo }/>
+                <BotonCalc texto = "del" color="#9B9B9B" accion={ deleteData }/>
                 <BotonCalc texto = "/" color="#FF9427" accion={ limpiar }/>
             </View>
             {/* Fila de botones  */}
